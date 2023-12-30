@@ -3,6 +3,7 @@ package com.example.DW_backend.mysql.mapper;
 import com.example.DW_backend.mysql.pojo.MovieDTO;
 
 import org.apache.ibatis.annotations.*;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 
@@ -20,4 +21,17 @@ public interface MovieMapper {
     List<String> findAsinsByMovieId(int movieId);
 
     List<MovieDTO> selectAllMovies();
+
+    List<MovieDTO> findMoviesByMultipleCriteria(
+        @Param("name") String name,
+        @Param("category") String category,
+        @Param("director") String director,
+        @Param("actor") String actor,
+        @Param("minGrade") Double minGrade,
+        @Param("maxGrade") Double maxGrade,
+        @Param("year") Integer year,
+        @Param("startMonth") Integer startMonth,
+        @Param("endMonth") Integer endMonth,
+        @Param("dayOfWeek") Integer dayOfWeek
+    );
 }
