@@ -19,7 +19,7 @@ spring:
 logging:
   level:
     root: info
-    com.example.javaee_backend.dao: debug
+    com.example.DW_backend.dao: debug
 
 # Mapper文件扫描路径
 mybatis:
