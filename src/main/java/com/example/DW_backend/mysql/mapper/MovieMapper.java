@@ -13,5 +13,11 @@ public interface MovieMapper {
     "FROM movie WHERE movie_id=#{movieId}")
     MovieDTO selectMovieById(int movieId);
 
+    @Select("SELECT movie_id AS movieId, name AS name,time AS time,format AS format,grade AS grade,review_number AS reviewNumber FROM movie WHERE name = #{name}")
+    List<MovieDTO> findMovieByName(String name);
+
+    @Select("SELECT asin FROM asin WHERE movie_id = #{movieId}")
+    List<String> findAsinsByMovieId(int movieId);
+
     List<MovieDTO> selectAllMovies();
 }
