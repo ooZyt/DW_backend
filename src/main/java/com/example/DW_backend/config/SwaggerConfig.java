@@ -26,14 +26,14 @@ public class SwaggerConfig {
                 // 是否开启
                 .enable(swaggerEnabled).select()
                 // 扫描的路径包
-                .apis(RequestHandlerSelectors.basePackage("com.example.javaee_backend"))
+                .apis(RequestHandlerSelectors.basePackage("com.example.DW_backend"))
                 // 指定路径处理PathSelectors.any()代表所有的路径
                 .paths(PathSelectors.any()).build().pathMapping("/");
     }
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("javaee2023")
+                .title("DW")
                 .description("springboot | swagger")
                 // 作者信息
                 .contact(new Contact("2kniden", "", "2076850982@qq.com"))
