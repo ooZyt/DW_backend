@@ -8,8 +8,13 @@ spring:
     username: root
     password: javaee2023
 #    url: jdbc:mysql://1.94.107.85:3306/javaee2023?serverTimezone=UTC
-    url: jdbc:mysql://1.94.107.85:3306/test?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:mysql://1.94.107.85:3306/warehouse?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8
     driver-class-name: com.mysql.cj.jdbc.Driver
+  neo4j:
+    uri: neo4j://47.116.119.193:7687
+    authentication:
+      username: neo4j
+      password: password
   oss:
     endpoint: oss-cn-shanghai.aliyuncs.com
     accessKeyId: LTAI5tMLHZDXtMm6zCfZh33g
