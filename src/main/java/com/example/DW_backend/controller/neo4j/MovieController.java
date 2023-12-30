@@ -16,10 +16,12 @@ public class MovieController {
     }
     @GetMapping(path = "/movies", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<String> getMovieTitles() {
+
         try (Session session = driver.session()) {
             return session.run("MATCH (n:Movie) RETURN n LIMIT 25")
                     .list(r -> r.get("n").asNode().get("name").asString());
         }
+
     }
 
 }
