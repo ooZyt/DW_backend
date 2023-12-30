@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.DW_backend.mysql.mapper.MovieMapper">
+ <!-- 多条件查询电影 -->
+    <select id="findMoviesByMultipleCriteria" resultType="com.example.DW_backend.mysql.pojo.MovieDTO">
+        SELECT DISTINCT
+            m.MovieID AS movieId, 
+            m.Name AS name, 
+            m.Time AS time, 
+            m.Format AS format, 
+            m.Grade AS grade, 
+            m.Comments AS reviewNumber
+           
+        FROM all_movies m
+        LEFT JOIN act ma ON m.MovieID = ma.movie_id
+        LEFT JOIN actor a ON ma.actor_id = a.actor_id
+        LEFT JOIN direct md ON m.MovieID = md.movie_id
+        LEFT JOIN director d ON md.director_id = d.director_id
+        LEFT JOIN release_time rt ON m.MovieID = rt.movie_id
+        LEFT JOIN category ca ON m.MovieID =ca.movie_id
+
+        WHERE 1=1
+        <if test="name != null">
+            AND m.Name = #{name}
+        </if>
+        <if test="category != null">
+            AND m.Type = #{category}
+        </if>
+        <if test="director != null">
+            AND d.name = #{director}
+        </if>
+        <if test="actor != null">
+            AND a.name = #{actor}
+        </if>
+        <if test="minGrade != null">
+            AND m.Grade &gt;= #{minGrade}
+        </if>
+        <if test="maxGrade != null">
+            AND m.Grade &lt;= #{maxGrade}
+        </if>
+        <if test="year != null">
+            AND rt.year = #{year}
+        </if>
+        <if test="startMonth != null">
+            AND rt.month &gt;= #{startMonth}
+        </if>
+        <if test="endMonth != null">
+            AND rt.month &lt;= #{endMonth}
+        </if>
+        <if test="dayOfWeek != null">
+            AND DAYOFWEEK(STR_TO_DATE(CONCAT(rt.year, '-', rt.month, '-', rt.day), '%Y-%c-%e')) = #{dayOfWeek}
+        </if>
+    </select>
+
+</mapper>
