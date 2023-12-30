@@ -24,9 +24,29 @@ public class ByTime {
     @Autowired
     private ReleaseTimeService releaseTimeService;
 
-     @GetMapping("/{id}")
-    public ReleaseTimeDTO getReleaseTime(@PathVariable("id") int movieId) {
+    @GetMapping("/{movieId}")
+    public ReleaseTimeDTO getReleaseTime(@PathVariable("movieId") int movieId) {
         return releaseTimeService.getReleaseTime(movieId);
+    }
+
+    @GetMapping("/year/{year}")
+    public int getMovieCountByYear(@PathVariable("year") int year) {
+        return releaseTimeService.getMovieCountByYear(year);
+    }
+
+    @GetMapping("/year/{year}/month/{month}")
+    public int getMovieCountByYearAndMonth(@PathVariable("year") int year, @PathVariable("month") int month) {
+        return releaseTimeService.getMovieCountByYearAndMonth(year, month);
+    }
+
+    @GetMapping("/quarter/{year}/{startMonth}/{endMonth}")
+    public int getMovieCountByQuarter(@PathVariable("year") int year, @PathVariable("startMonth") int startMonth, @PathVariable("endMonth") int endMonth) {
+        return releaseTimeService.getMovieCountByQuarter(year, startMonth, endMonth);
+    }
+
+    @GetMapping("/dayOfWeek/{dayOfWeek}")
+    public int getMovieCountByDayOfWeek(@PathVariable("dayOfWeek") int dayOfWeek) {
+        return releaseTimeService.getMovieCountByDayOfWeek(dayOfWeek);
     }
 
 

@@ -16,7 +16,25 @@ public class ReleaseTimeImpl implements ReleaseTimeService{
     public ReleaseTimeDTO getReleaseTime(int movieId) {
         return releaseTimeMapper.selectReleaseTimeByMovieId(movieId);
     }
+    @Override
+    public int getMovieCountByYear(int year) {
+        return releaseTimeMapper.countMoviesByYear(year);
+    }
 
+    @Override
+    public int getMovieCountByYearAndMonth(int year, int month) {
+        return releaseTimeMapper.countMoviesByYearAndMonth(year, month);
+    }
+
+    @Override
+    public int getMovieCountByQuarter(int year, int startMonth, int endMonth) {
+        return releaseTimeMapper.countMoviesByQuarter(year, startMonth, endMonth);
+    }
+
+    @Override
+    public int getMovieCountByDayOfWeek(int dayOfWeek) {
+        return releaseTimeMapper.countMoviesByDayOfWeek(dayOfWeek);
+    }
 
     
 }
