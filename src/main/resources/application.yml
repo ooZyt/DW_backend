@@ -1,0 +1,42 @@
+server:
+  port: 9003
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant-path-matcher
+  datasource:
+    username: root
+    password: javaee2023
+#    url: jdbc:mysql://1.94.107.85:3306/javaee2023?serverTimezone=UTC
+    url: jdbc:mysql://1.94.107.85:3306/test?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  oss:
+    endpoint: oss-cn-shanghai.aliyuncs.com
+    accessKeyId: LTAI5tMLHZDXtMm6zCfZh33g
+    accessKeySecret: RWQgkY4nFt9MCebwLGHeGE99UuOB7D
+    bucketName: javaee2023
+# 控制台日志配置
+logging:
+  level:
+    root: info
+    com.example.javaee_backend.dao: debug
+
+# Mapper文件扫描路径
+mybatis:
+  mapper-locations: classpath*:mapper/**/*.xml
+
+# 图片上传设置
+javaee:
+  upload:
+    photo:
+      sufix: .jpg, .png, .gif, .jpeg
+      maxsize: 1024 # 1024KB
+
+    # Excel上传设置
+    excel:
+      maxsize: 204800 # 200MB = 204800KB
+
+    file:
+      path: F:/els-study/ThreeGrade-up/javaee/AssignmentB/javaEE_backend/javaee_backend/src/main/resources/upload/photo/
+
+
