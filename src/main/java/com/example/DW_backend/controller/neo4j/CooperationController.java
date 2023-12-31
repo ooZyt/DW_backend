@@ -2,16 +2,15 @@ package com.example.DW_backend.controller.neo4j;
 import org.neo4j.driver.Driver;
 import org.neo4j.driver.Session;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
 
 import static org.neo4j.driver.Values.parameters;
 
+
+@CrossOrigin(origins = {"http://localhost:5173","http://localhost:8080"})
 @RestController
 @RequestMapping("/neo4j")
 public class CooperationController {
@@ -69,4 +68,33 @@ public class CooperationController {
             return result;
         }
     }
+
+    // 查询演员合作关系，合作次数由高到低的前50名
+    @GetMapping(path = "/cooperations/top/actor", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Map<String, Object>> getTopActorCooperations() {
+        try (Session session = driver.session()) {
+            long startTime = System.currentTimeMillis();
+            List<Map<String, Object>> result = session.run("MATCH (a1:Actor)-[r:COOPERATED]->(a2:Actor) RETURN a1.name AS Actor1, a2.name AS Actor2, r.times AS CooperationTimes ORDER BY r.times DESC LIMIT 50")
+                    .list(r -> r.asMap());
+            long endTime = System.currentTimeMillis();
+            long queryTime = endTime - startTime;
+            System.out.println("Query查询演员合作关系，合作次数由高到低的前50名 time: " + queryTime + " ms");
+            return result;
+        }
+
+    }
+    @GetMapping(path = "/cooperations/top/director-actor", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Map<String, Object>> getTopDirectorActorCooperations() {
+        try (Session session = driver.session()) {
+            long startTime = System.currentTimeMillis();
+            List<Map<String, Object>> result = session.run("MATCH (a:Actor)-[r:COOPERATED_WITH]->(d:Director) RETURN a.name AS Actor, d.name AS Director, r.times AS CooperationTimes ORDER BY r.times DESC LIMIT 50")
+                    .list(r -> r.asMap());
+            long endTime = System.currentTimeMillis();
+            long queryTime = endTime - startTime;
+            System.out.println("Query查询导演和演员合作关系，合作次数由高到低的前50名 time: " + queryTime + " ms");
+            return result;
+        }
+    }
+
+
 }

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import java.util.List;
 @CrossOrigin(origins = {"http://localhost:5173"})
 @RestController
-@RequestMapping("mysql/ByActorPairPopularity")
+@RequestMapping("mysql/ByActorPairPopularity/")
 public class ByActorPairPopularity {
 
     @Autowired

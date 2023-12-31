@@ -2,16 +2,15 @@ package com.example.DW_backend.controller.neo4j;
 import org.neo4j.driver.Driver;
 import org.neo4j.driver.Session;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
 
 import static org.neo4j.driver.Values.parameters;
 
+
+@CrossOrigin(origins = {"http://localhost:5173","http://localhost:8080"})
 @RestController
 @RequestMapping("/neo4j")
 public class MovieController {
