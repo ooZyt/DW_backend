@@ -23,6 +23,7 @@ public class MovieController {
     }
     @GetMapping(path = "/movies", produces = MediaType.APPLICATION_JSON_VALUE)// 测试用的
     public List<String> getMovieTitles() {
+
         try (Session session = driver.session()) {
             long startTime = System.currentTimeMillis();
             List<String> result = session.run("MATCH (n:Movie) RETURN n ")
@@ -32,6 +33,7 @@ public class MovieController {
             System.out.println("Query获取全部电影信息 time: " + queryTime + " ms");
             return result;
         }
+
     }
 
     // 查询某个导演执行的所有电影

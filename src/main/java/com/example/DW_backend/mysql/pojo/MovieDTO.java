@@ -14,5 +14,7 @@ public class MovieDTO {
     private double grade;
     private int reviewNumber;
 
-
+    public int getMovieId(){
+        return movieId;
+    }
 }
