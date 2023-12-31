@@ -25,9 +25,15 @@ public class CooperationController {
     @GetMapping(path = "/cooperations/actor/{times}", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Map<String, Object>> getCooperations(@PathVariable int times) {
         try (Session session = driver.session()) {
-            return session.run("MATCH (a1:Actor)-[r:COOPERATED]->(a2:Actor) WHERE r.times > $times RETURN a1.name AS Actor1, a2.name AS Actor2, r.times AS CooperationTimes",
-                            parameters("times", times))
-                    .list(r -> r.asMap());
+            long startTime = System.currentTimeMillis();
+            List<Map<String, Object>> result =
+                    session.run("MATCH (a1:Actor)-[r:COOPERATED]->(a2:Actor) WHERE r.times > $times RETURN a1.name AS Actor1, a2.name AS Actor2, r.times AS CooperationTimes",
+                                    parameters("times", times))
+                            .list(r -> r.asMap());
+            long endTime = System.currentTimeMillis();
+            long queryTime = endTime - startTime;
+            System.out.println("Query根据次数查询合作次数超过n次的演员组合 time: " + queryTime + " ms");
+            return result;
         }
     }
 
@@ -36,9 +42,15 @@ public class CooperationController {
     @GetMapping(path = "/cooperations/director/{times}", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Map<String, Object>> getCooperationsWithDirector(@PathVariable int times) {
         try (Session session = driver.session()) {
-            return session.run("MATCH (a:Actor)-[r:COOPERATED_WITH]->(d:Director) WHERE r.times > $times RETURN a.name AS Actor, d.name AS Director, r.times AS CooperationTimes",
-                            parameters("times", times))
-                    .list(r -> r.asMap());
+            long startTime = System.currentTimeMillis();
+            List<Map<String, Object>> result =
+                    session.run("MATCH (a:Actor)-[r:COOPERATED_WITH]->(d:Director) WHERE r.times > $times RETURN a.name AS Actor, d.name AS Director, r.times AS CooperationTimes",
+                                    parameters("times", times))
+                            .list(r -> r.asMap());
+            long endTime = System.currentTimeMillis();
+            long queryTime = endTime - startTime;
+            System.out.println("Query根据次数查询合作次数超过n次的演员和导演组合 time: " + queryTime + " ms");
+            return result;
         }
     }
 
@@ -47,9 +59,14 @@ public class CooperationController {
     @GetMapping(path = "/cooperations/actor/{actorName}/{times}", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Map<String, Object>> getCooperationsWithActor(@PathVariable String actorName, @PathVariable int times) {
         try (Session session = driver.session()) {
-            return session.run("MATCH (a1:Actor {name: $actorName})-[r:COOPERATED]->(a2:Actor) WHERE r.times > $times RETURN a1.name AS Actor1, a2.name AS Actor2, r.times AS CooperationTimes",
+            long startTime = System.currentTimeMillis();
+            List<Map<String, Object>> result = session.run("MATCH (a1:Actor {name: $actorName})-[r:COOPERATED]->(a2:Actor) WHERE r.times > $times RETURN a1.name AS Actor1, a2.name AS Actor2, r.times AS CooperationTimes",
                             parameters("actorName", actorName, "times", times))
                     .list(r -> r.asMap());
+            long endTime = System.currentTimeMillis();
+            long queryTime = endTime - startTime;
+            System.out.println("Query根据次数和演员名称查询合作次数超过n次的某演员组合 time: " + queryTime + " ms");
+            return result;
         }
     }
 }

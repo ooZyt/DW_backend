@@ -33,7 +33,7 @@ public class CategoryComtroller {
 
             long endTime = System.currentTimeMillis();
             long queryTime = endTime - startTime;
-            System.out.println("Query time: " + queryTime + " ms");
+            System.out.println("Query某个类别的所有电影数量 time: " + queryTime + " ms");
             return result;
 
         }
@@ -42,23 +42,34 @@ public class CategoryComtroller {
     @GetMapping(path = "/categoryMovies/{categoryName}", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Map<String, Object>> getMoviesByCategory(@PathVariable String categoryName) {
         try (Session session = driver.session()) {
-            return session.run("MATCH (m:Movie)-[:BELONGS_TO]->(c:Category {categoryName: $categoryName}) RETURN m",
+            long startTime = System.currentTimeMillis();
+            List<Map<String, Object>> result = session.run("MATCH (m:Movie)-[:BELONGS_TO]->(c:Category {categoryName: $categoryName}) RETURN m",
                             parameters("categoryName", categoryName))
                     .list(r -> r.get("m").asNode().asMap());
+            long endTime = System.currentTimeMillis();
+            long queryTime = endTime - startTime;
+            System.out.println("Query某个类别的所有电影信息 time: " + queryTime + " ms");
+            return result;
         }
     }
 
     @GetMapping(path = "/movies/topCooperations/{categoryName}", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Map<String, Object>> getTopCooperationsInCategoryMovies(@PathVariable String categoryName) {
         try (Session session = driver.session()) {
-            return session.run(
-                            "MATCH (m:Movie)-[:BELONGS_TO]->(c:Category {categoryName: $categoryName}), (a1:Actor)-[:ACTED_IN]->(m)<-[:ACTED_IN]-(a2:Actor) " +
-                                    "WHERE id(a1) < id(a2) " +
-                                    "RETURN a1.name AS Actor1, a2.name AS Actor2, sum(m.commentCount) AS TotalComments " +
-                                    "ORDER BY TotalComments DESC " +
-                                    "LIMIT 10",
-                            parameters("categoryName", categoryName))
-                    .list(r -> r.asMap());
+            long startTime = System.currentTimeMillis();
+            List<Map<String, Object>>  result =
+                    session.run(
+                                    "MATCH (m:Movie)-[:BELONGS_TO]->(c:Category {categoryName: $categoryName}), (a1:Actor)-[:ACTED_IN]->(m)<-[:ACTED_IN]-(a2:Actor) " +
+                                            "WHERE id(a1) < id(a2) " +
+                                            "RETURN a1.name AS Actor1, a2.name AS Actor2, sum(m.commentCount) AS TotalComments " +
+                                            "ORDER BY TotalComments DESC " +
+                                            "LIMIT 10",
+                                    parameters("categoryName", categoryName))
+                            .list(r -> r.asMap());
+            long endTime = System.currentTimeMillis();
+            long queryTime = endTime - startTime;
+            System.out.println("Query某个类别最受关注的演员组合 time: " + queryTime + " ms");
+            return result;
         }
     }
 }

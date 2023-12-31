@@ -24,8 +24,13 @@ public class MovieController {
     @GetMapping(path = "/movies", produces = MediaType.APPLICATION_JSON_VALUE)// 测试用的
     public List<String> getMovieTitles() {
         try (Session session = driver.session()) {
-            return session.run("MATCH (n:Movie) RETURN n LIMIT 25")
+            long startTime = System.currentTimeMillis();
+            List<String> result = session.run("MATCH (n:Movie) RETURN n ")
                     .list(r -> r.get("n").asNode().get("name").asString());
+            long endTime = System.currentTimeMillis();
+            long queryTime = endTime - startTime;
+            System.out.println("Query获取全部电影信息 time: " + queryTime + " ms");
+            return result;
         }
     }
 
@@ -33,9 +38,14 @@ public class MovieController {
     @GetMapping(path = "/movies/{directorName}", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Map<String, Object>> getMoviesByDirector(@PathVariable String directorName) {
         try (Session session = driver.session()) {
-            return session.run("MATCH (d:Director {name: $directorName})-[:DIRECTED]->(m:Movie) RETURN m",
+            long startTime = System.currentTimeMillis();
+            List<Map<String, Object>> result = session.run("MATCH (d:Director {name: $directorName})-[:DIRECTED]->(m:Movie) RETURN m",
                             parameters("directorName", directorName))
                     .list(r -> r.get("m").asNode().asMap());
+            long endTime = System.currentTimeMillis();
+            long queryTime = endTime - startTime;
+            System.out.println("Query获取导演电影 time: " + queryTime + " ms");
+            return result;
         }
     }
 
@@ -43,12 +53,16 @@ public class MovieController {
     @GetMapping(path = "/actorMovies/{actorName}", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Map<String, Object>> getMoviesByActor(@PathVariable String actorName) {
         try (Session session = driver.session()) {
-            return session.run("MATCH (a:Actor {name: $actorName})-[:ACTED_IN]->(m:Movie) RETURN m",
+            long startTime = System.currentTimeMillis();
+            List<Map<String, Object>> result = session.run("MATCH (a:Actor {name: $actorName})-[:ACTED_IN]->(m:Movie) RETURN m",
                             parameters("actorName", actorName))
                     .list(r -> r.get("m").asNode().asMap());
+            long endTime = System.currentTimeMillis();
+            long queryTime = endTime - startTime;
+            System.out.println("Query获取演员电影 time: " + queryTime + " ms");
+            return result;
         }
     }
-
 
 
 
