@@ -8,16 +8,11 @@ public class ActorPairDTO {
     private String actor1;
     private String actor2;
     private int movieCount;
+    private int totalReviews;
 
     // Constructors, getters, and setters
 
     public ActorPairDTO() {
-    }
-
-    public ActorPairDTO(String actor1, String actor2, int movieCount) {
-        this.actor1 = actor1;
-        this.actor2 = actor2;
-        this.movieCount = movieCount;
     }
 
     // Getters and Setters
@@ -43,5 +38,13 @@ public class ActorPairDTO {
 
     public void setMovieCount(int movieCount) {
         this.movieCount = movieCount;
+    }
+
+    public int getTotalReviews() {
+        return totalReviews;
+    }
+
+    public void setTotalReviews(int totalReviews) {
+        this.totalReviews = totalReviews;
     }
 }
