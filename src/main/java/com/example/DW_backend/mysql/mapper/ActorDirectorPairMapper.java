@@ -11,12 +11,12 @@ import java.util.List;
 public interface ActorDirectorPairMapper {
 
     @Select("SELECT a.name AS actorName, d.name AS directorName, COUNT(*) AS movieCount " +
-            "FROM act ac " +
-            "JOIN actor a ON ac.actor_id = a.actor_id " +
-            "JOIN direct di ON ac.movie_id = di.movie_id " +
-            "JOIN director d ON di.director_id = d.director_id " +
+            "FROM act_n ac " +
+            "JOIN actor_n a ON ac.actor_id = a.actor_id " +
+            "JOIN direct_n di ON ac.movie_id = di.movie_id " +
+            "JOIN director_n d ON di.director_id = d.director_id " +
             "GROUP BY ac.actor_id, di.director_id " +
-            "ORDER BY COUNT(*) DESC " +
-            "LIMIT 10000")
+            "ORDER BY COUNT(*) DESC " 
+            )
     List<ActorDirectorPairDTO> findActorDirectorPairsWithMostCollaborations();
 }
