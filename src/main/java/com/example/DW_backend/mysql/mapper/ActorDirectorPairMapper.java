@@ -15,8 +15,10 @@ public interface ActorDirectorPairMapper {
             "JOIN actor_n a ON ac.actor_id = a.actor_id " +
             "JOIN direct_n di ON ac.movie_id = di.movie_id " +
             "JOIN director_n d ON di.director_id = d.director_id " +
+            "WHERE TRIM(a.name) <> '' AND TRIM(d.name) <> '' AND TRIM(a.name) <> 'Various' AND TRIM(d.name) <> 'Various'"+
             "GROUP BY ac.actor_id, di.director_id " +
             "ORDER BY COUNT(*) DESC " 
+            
             )
     List<ActorDirectorPairDTO> findActorDirectorPairsWithMostCollaborations();
 }
